@@ -5,9 +5,9 @@
 */
 
 const WIERSZE = [
-    "\nIdziesz wolniej.\nWidać namysł\nW twoich oczach.\n\nCiało już tu jest.\nMyśli biegną za nim.",
-    "\nSkrócone:\nMyśli.\nOddech.\n\nChcemy zmusić\nchwilę—\n\nby pomieściła\nwięcej.",
-    "\nWidzę:\nmrużysz oczy.\n\nTo cię zdradza.\n\nNie musisz mówić.\n\nCzujesz\ntę chwilę."
+    "1\nIdziesz wolniej.\nWidać namysł\nW twoich oczach.\n\nCiało już tu jest.\nMyśli biegną za nim.",
+    "2.\nSkrócone:\nMyśli.\nOddech.\n\nChcemy zmusić\nchwilę—\n\nby pomieściła\nwięcej.",
+    "3.\nWidzę:\nmrużysz oczy.\n\nTo cię zdradza.\n\nNie musisz mówić.\n\nCzujesz\ntę chwilę.",
     "Wciąż o nich myślę.\n\nO ścieżkach,\nktórymi\nnie pójdę.\n\nUstach,\nktórych nie pocałuję.\n\nRamionach,\nktórych nie obejmę.\n\nSłowach,\nktórych nie wypowiem.",
     "Powietrze gęstnieje,\nmówisz.\n\nTak.",
     "Czyjaś ręka.\nCzyjeś westchnienie.\nCzyjeś „chodź”.\n\nMelodia—\nbez nut.",
