@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>s</title>
+    <style>
+        /* --- ESTETYKA NOCNA --- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #111111; /* Bardzo ciemny szary, prawie czarny */
+            color: #bcbcbc; /* Przygaszona biel, by nie raziła */
+            font-family: "Georgia", serif;
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden; 
+        }
+
+        /* Kontener przewijania */
+        main {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* --- NAWIGACJA --- */
+        nav {
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            z-index: 100;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #bcbcbc;
+            font-size: 0.75rem;
+            text-transform: lowercase;
+            opacity: 0.2; /* Ledwo widoczne */
+            transition: opacity 0.8s ease;
+        }
+
+        nav a:hover {
+            opacity: 0.7;
+        }
+
+        /* --- SEKCJE --- */
+        section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15%;
+            box-sizing: border-box;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .content {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Wiersze */
+        .poem {
+            text-align: center;
+            font-size: 1.2rem;
+            white-space: pre-line;
+            color: #cccccc;
+        }
+
+        /* Głosy */
+        .voice-section {
+            justify-content: flex-start; 
+            padding-left: 15%;
+        }
+
+        .voice {
+            text-align: left;
+            color: #777777; /* Jeszcze ciemniejszy dla głosów */
+            font-size: 1rem;
+            font-style: italic;
+            max-width: 500px;
+        }
+
+        /* --- DETALE --- */
+        .footer-tools {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .back-to-top {
+            text-decoration: none;
+            color: #bcbcbc;
+            font-size: 0.9rem;
+            opacity: 0.1;
+            transition: opacity 0.5s;
+        }
+
+        .back-to-top:hover {
+            opacity: 0.5;
+        }
+
+        .sigil {
+            font-size: 0.7rem;
+            opacity: 0.1;
+            user-select: none;
+        }
+
+        /* --- MOBILNE --- */
+        @media (max-width: 600px) {
+            nav { top: 30px; }
+            section { padding: 0 10%; }
+            .poem { font-size: 1.1rem; }
+            .voice-section { padding-left: 10%; }
+            .footer-tools { right: 20px; bottom: 20px; }
+        }
+
+        /* Ukrycie scrollbara */
+        main::-webkit-scrollbar { display: none; }
+        main { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#wiersz-1">wiersze</a>
+        <a href="#glos-1">głosy</a>
+    </nav>
+
+    <div class="footer-tools">
+        <a href="#wiersz-1" class="back-to-top">↑</a>
+        <div class="sigil">s</div>
+    </div>
+
+    <main>
+        <section id="wiersz-1">
+            <div class="content poem">
+                noc nie jest czarna
+                jest tylko 
+                brakiem odpowiedzi
+            </div>
+        </section>
+
+        <section id="wiersz-2">
+            <div class="content poem">
+                wszystkie słowa
+                których nie wypowiedziałem
+                stoją teraz w oknie
+                i patrzą na księżyc
+            </div>
+        </section>
+
+        <section id="wiersz-3">
+            <div class="content poem">
+                atrament 
+                rozlany na niebie
+                brudzi palce
+                tym, którzy śnią
+            </div>
+        </section>
+
+        <section id="glos-1" class="voice-section">
+            <div class="content voice">
+                — Czasami wydaje mi się, że ciemność w tym pokoju ma swoją wagę. Jakby osiadała na ramionach i zmuszała do dłuższego wydechu. To nie jest straszne, to jest po prostu... gęste.
+            </div>
+        </section>
+
+        <section id="glos-2" class="voice-section">
+            <div class="content voice">
+                ...słyszałem, jak ktoś szedł korytarzem, ale kiedy otworzyłem drzwi, nikogo nie było. Tylko ten zapach starego drewna i jakby echo rozmowy, która skończyła się dekadę temu.
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
