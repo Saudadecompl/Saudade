@@ -216,8 +216,8 @@
         function startObserver() {
             const sections = document.querySelectorAll('section');
             const options = {
-                root: container, // Obserwujemy wewnątrz kontenera <main>
-                threshold: 0.6   // Sekcja musi być w 60% widoczna, by dodać klasę
+                root: container,
+                threshold: 0.9   /* Animacja ruszy dopiero gdy sekcja prawie wypełni ekran */
             };
 
             const observer = new IntersectionObserver((entries) => {
