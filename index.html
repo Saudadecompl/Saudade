@@ -126,22 +126,49 @@
             z-index: 100; 
         }
 
+        /* --- DETALE DOLNE (Ulepszona Strzałka) --- */
+        .footer-tools { 
+            position: fixed; 
+            bottom: 30px; 
+            right: 40px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 10px; 
+            z-index: 100; 
+        }
+
         .back-to-top { 
             text-decoration: none; 
             color: #bcbcbc; 
-            font-size: 0.9rem; 
-            opacity: 0.08; 
-            transition: opacity 1s; 
+            font-size: 1rem; /* Odrobinę większa, by była czytelna */
+            opacity: 0.04; /* Domyślnie niemal niewidoczna, wtapia się w nicość */
+            
+            /* Płynne rozjaśnianie przy najechaniu i pulsująca animacja */
+            transition: opacity 1.5s ease-in-out; 
+            
+            /* Uruchamia pulsującą animację, która trwa 6 sekund i zapętla się */
+            animation: breathe 6s ease-in-out infinite;
         }
 
+        /* Przy najechaniu myszką rozjaśnia się mocniej, ale wciąż powoli */
         .back-to-top:hover { 
-            opacity: 0.4; 
+            opacity: 0.5; 
+            /* Zatrzymuje puls, gdy czytelnik chce kliknąć */
+            animation: none; 
+        }
+
+        /* Definicja animacji "oddychania" dla strzałki */
+        @keyframes breathe {
+            0%, 100% { opacity: 0.04; transform: translateY(0); }
+            50%      { opacity: 0.15; transform: translateY(-3px); } /* Puls do góry i rozjaśnienie */
         }
 
         .sigil { 
             font-size: 0.7rem; 
             opacity: 0.08; 
             user-select: none; 
+            cursor: default;
         }
 
         /* --- RESPONSYWNOŚĆ (TELEFONY) --- */
