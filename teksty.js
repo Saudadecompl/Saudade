@@ -5,22 +5,11 @@
 */
 
 const WIERSZE = [
-    "To jest Twój pierwszy wiersz.\nMożesz go teraz edytować,\ndodając własne słowa.",
-    "Drugi wiersz.\nKrótki i treściwy.",
-    "Trzeci wiersz.\nZupełnie nowa strona.",
-    "Miejsce na wiersz czwarty...",
-    "Miejsce na wiersz piąty...",
-    "Miejsce na wiersz szósty...",
-    "Miejsce na wiersz siódmy...",
-    "Miejsce na wiersz ósmy...",
-    "Miejsce na wiersz dziewiąty...",
-    "Miejsce na wiersz dziesiąty..."
+    "1\nIdziesz wolniej.\nWidać namysł\nW twoich oczach.\n\nCiało już tu jest.\nMyśli biegną za nim.",
+    "2.\nSkrócone:\nMyśli.\nOddech.\n\nChcemy zmusić\nchwilę—\n\nby pomieściła\nwięcej.",
+    "3.\nWidzę:\nmrużysz oczy.\n\nTo cię zdradza.\n\nNie musisz mówić.\n\nCzujesz\ntę chwilę."
 ];
 
 const GLOSY = [
-    "— To jest pierwszy fragment rozmowy.\nMoże brzmieć jak echo kogoś, kto tu był.",
-    "...fragment znaleziony w starym notatniku.",
-    "Głos trzeci. Przesunięty lekko w lewo.",
-    "Głos czwarty. Szept w ciemności.",
-    "Głos piąty. Ostatni z testowych."
+    // Tu możesz wkleić podobnie sformatowane głosy (te z lewej strony)
 ];
