@@ -6,18 +6,24 @@
     <title>s</title>
     <script src="teksty.js"></script>
     <style>
-        html { scroll-behavior: smooth; }
+        /* --- ESTETYKA I FUNDAMENTY --- */
+        html { 
+            scroll-behavior: smooth; 
+        }
+
         body {
-            margin: 0; padding: 0;
-            background-color: #111111;
-            color: #bcbcbc;
+            margin: 0; 
+            padding: 0;
+            background-color: #111111; /* Ciemne tło */
+            color: #bcbcbc;           /* Przygaszony tekst */
             font-family: "Georgia", serif;
             line-height: 1.8;
             letter-spacing: 0.02em;
             -webkit-font-smoothing: antialiased;
-            overflow: hidden;
+            overflow: hidden; /* Scroll obsługiwany przez <main> */
         }
 
+        /* Kontener przewijania - Efekt stron książki */
         main {
             height: 100vh;
             overflow-y: scroll;
@@ -25,51 +31,123 @@
             -webkit-overflow-scrolling: touch;
         }
 
+        /* --- NAWIGACJA (DYSKRETNA) --- */
         nav {
-            position: fixed; top: 40px; width: 100%;
-            display: flex; justify-content: center; gap: 40px; z-index: 100;
+            position: fixed; 
+            top: 40px; 
+            width: 100%;
+            display: flex; 
+            justify-content: center; 
+            gap: 40px; 
+            z-index: 100;
         }
 
         nav a {
-            text-decoration: none; color: #bcbcbc; font-size: 0.75rem;
-            text-transform: lowercase; opacity: 0.2; transition: opacity 0.8s;
+            text-decoration: none; 
+            color: #bcbcbc; 
+            font-size: 0.75rem;
+            text-transform: lowercase; 
+            opacity: 0.2; 
+            transition: opacity 0.8s ease;
         }
 
-        nav a:hover { opacity: 0.7; }
+        nav a:hover { 
+            opacity: 0.7; 
+        }
 
+        /* --- STRUKTURA SEKCJI --- */
         section {
-            height: 100vh; display: flex; align-items: center; justify-content: center;
-            padding: 0 15%; box-sizing: border-box; scroll-snap-align: start;
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            box-sizing: border-box; 
+            scroll-snap-align: start;
+            position: relative;
         }
 
-        .poem { text-align: center; font-size: 1.2rem; white-space: pre-line; color: #cccccc; }
+        /* Styl dla Wierszy (Środek) */
+        .poem-section {
+            justify-content: center;
+            padding: 0 15%;
+        }
 
-        .voice-section { justify-content: flex-start; padding-left: 15%; }
-        .voice { text-align: left; color: #777777; font-size: 1rem; font-style: italic; max-width: 500px; white-space: pre-line; }
+        .poem { 
+            text-align: center; 
+            font-size: 1.2rem; 
+            white-space: pre-line; 
+            color: #cccccc; 
+            max-width: 600px;
+        }
 
-        .footer-tools { position: fixed; bottom: 30px; right: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 100; }
-        .back-to-top { text-decoration: none; color: #bcbcbc; font-size: 0.9rem; opacity: 0.1; transition: opacity 0.5s; }
-        .back-to-top:hover { opacity: 0.5; }
-        .sigil { font-size: 0.7rem; opacity: 0.1; user-select: none; }
+        /* Styl dla Głosów (Asymetria) */
+        .voice-section { 
+            justify-content: flex-start; 
+            padding-left: 20%; 
+            padding-right: 10%;
+        }
 
+        .voice { 
+            text-align: left; 
+            color: #777777; 
+            font-size: 0.95rem; 
+            font-style: italic; 
+            max-width: 450px; 
+            white-space: pre-line;
+            padding-left: 25px;
+            /* Subtelna pionowa linia z lewej */
+            border-left: 1px solid rgba(119, 119, 119, 0.2); 
+        }
+
+        /* --- DETALE DOLNE --- */
+        .footer-tools { 
+            position: fixed; 
+            bottom: 30px; 
+            right: 40px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 10px; 
+            z-index: 100; 
+        }
+
+        .back-to-top { 
+            text-decoration: none; 
+            color: #bcbcbc; 
+            font-size: 0.9rem; 
+            opacity: 0.1; 
+            transition: opacity 0.5s; 
+        }
+
+        .back-to-top:hover { 
+            opacity: 0.5; 
+        }
+
+        .sigil { 
+            font-size: 0.7rem; 
+            opacity: 0.1; 
+            user-select: none; 
+        }
+
+        /* --- RESPONSYWNOŚĆ (TELEFONY) --- */
         @media (max-width: 600px) {
-            section { padding: 0 10%; }
-            .voice-section { padding-left: 10%; }
+            .poem-section { padding: 0 10%; }
+            .voice-section { padding-left: 12%; padding-right: 8%; }
+            nav { top: 30px; gap: 25px; }
+            .footer-tools { right: 20px; bottom: 20px; }
         }
 
+        /* Ukrycie paska przewijania */
         main::-webkit-scrollbar { display: none; }
         main { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#wiersz-0">wiersze</a>
-        <a href="#glos-0">głosy</a>
-    </nav>
+    <nav id="top-nav">
+        </nav>
 
     <div class="footer-tools">
-        <a href="#wiersz-0" class="back-to-top">↑</a>
+        <a href="#" id="scroll-up" class="back-to-top">↑</a>
         <div class="sigil">s</div>
     </div>
 
@@ -77,18 +155,45 @@
 
     <script>
         const container = document.getElementById('container');
+        const nav = document.getElementById('top-nav');
+        const scrollUp = document.getElementById('scroll-up');
 
-        // Funkcja budująca stronę
-        if (typeof WIERSZE !== 'undefined' && typeof GLOSY !== 'undefined') {
-            WIERSZE.forEach((t, i) => {
-                container.innerHTML += `<section id="wiersz-${i}"><div class="poem">${t}</div></section>`;
-            });
-            GLOSY.forEach((t, i) => {
-                container.innerHTML += `<section id="glos-${i}" class="voice-section"><div class="voice">${t}</div></section>`;
-            });
-        } else {
-            container.innerHTML = `<section><div class="poem">Błąd: Nie znaleziono pliku teksty.js</div></section>`;
+        // Funkcja budująca strukturę strony z danych w teksty.js
+        function buildSite() {
+            if (typeof WIERSZE !== 'undefined' && typeof GLOSY !== 'undefined') {
+                
+                // Generowanie wierszy
+                WIERSZE.forEach((t, i) => {
+                    container.innerHTML += `
+                        <section id="wiersz-${i}" class="poem-section">
+                            <div class="poem">${t}</div>
+                        </section>`;
+                });
+
+                // Generowanie głosów
+                GLOSY.forEach((t, i) => {
+                    container.innerHTML += `
+                        <section id="glos-${i}" class="voice-section">
+                            <div class="voice">${t}</div>
+                        </section>`;
+                });
+
+                // Ustawienie linków w menu
+                nav.innerHTML = `
+                    <a href="#wiersz-0">wiersze</a>
+                    <a href="#glos-0">głosy</a>
+                `;
+                
+                // Ustawienie strzałki powrotu
+                scrollUp.href = "#wiersz-0";
+
+            } else {
+                container.innerHTML = `<section class="poem-section"><div class="poem">Nie znaleziono pliku teksty.js lub plik jest pusty.</div></section>`;
+            }
         }
+
+        // Start
+        window.onload = buildSite;
     </script>
 </body>
 </html>
