@@ -67,14 +67,15 @@
             position: relative;
         }
 
-        /* Tekst jest domyślnie niewidoczny */
+     /* Tekst jest domyślnie niewidoczny i nieco niżej */
         section .content {
             opacity: 0; 
-            transform: translateY(10px); /* Delikatne przesunięcie w górę */
-            transition: opacity 2s ease-out, transform 2.5s ease-out; /* Powolne odsłanianie */
+            transform: translateY(5px); 
+            /* Czas trwania: 3 sekundy, Opóźnienie: 0.5 sekundy */
+            transition: opacity 3s ease-in-out 0.5s, transform 3s ease-in-out 0.5s;
         }
 
-        /* Klasa dodawana przez JS, gdy sekcja jest na ekranie */
+       /* Klasa dodawana przez JS, gdy sekcja wskoczy na ekran */
         section.is-visible .content {
             opacity: 1;
             transform: translateY(0);
