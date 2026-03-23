@@ -25,5 +25,11 @@ const WIERSZE = [
 ];
 
 const GLOSY = [
-    // Tu możesz wkleić podobnie sformatowane głosy (te z lewej strony)
+    // Twoje głosy...
+];
+
+const GRAFIKI = [
+    "grafiki/obraz1.jpg",
+    "grafiki/ilustracja.png",
+    "grafiki/szkic.jpg"
 ];
