@@ -220,69 +220,58 @@
         const nav = document.getElementById('top-nav');
         const scrollUp = document.getElementById('scroll-up');
 
-        // Funkcja budująca strukturę strony z danych w teksty.js
-        function buildSite() {
+        let currentIndex = 0; 
+        const allContent = []; 
+
+        function prepareData() {
+            // Sprawdzamy, czy wiersze są wczytane z teksty.js [cite: 12]
             if (typeof WIERSZE !== 'undefined' && typeof GLOSY !== 'undefined') {
+                WIERSZE.forEach((t, i) => allContent.push({ text: t, type: 'poem', id: `wiersz-${i}` }));
+                GLOSY.forEach((t, i) => allContent.push({ text: t, type: 'voice', id: `glos-${i}` }));
+
+                nav.innerHTML = `<a href="#" onclick="window.location.reload()">od nowa</a>`;
                 
-                // Generowanie wierszy
-                WIERSZE.forEach((t, i) => {
-                    container.innerHTML += `
-                        <section id="wiersz-${i}" class="poem-section">
-                            <div class="content poem">${t}</div>
-                        </section>`;
-                });
-
-                // Generowanie głosów
-                GLOSY.forEach((t, i) => {
-                    container.innerHTML += `
-                        <section id="glos-${i}" class="voice-section">
-                            <div class="voice content">${t}</div>
-                        </section>`;
-                });
-
-                // Ustawienie linków w menu
-                nav.innerHTML = `
-                    <a href="#wiersz-0">wiersze</a>
-                    <a href="#glos-0">głosy</a>
-                `;
-                
-                // Ustawienie strzałki powrotu
-                scrollUp.href = "#wiersz-0";
-
-                // Uruchomienie obserwatora przewijania (dla animacji fadeIn)
-                startObserver();
-
-            } else {
-                container.innerHTML = `<section class="poem-section"><div class="poem content">Nie znaleziono pliku teksty.js lub plik jest pusty.</div></section>`;
+                // Ładujemy tylko 2 pierwsze wiersze na start [cite: 13, 14]
+                loadNextSection();
+                loadNextSection();
             }
         }
 
-        // Mechanizm wykrywający, kiedy sekcja jest na ekranie
-        function startObserver() {
-            const sections = document.querySelectorAll('section');
-            const options = {
-                root: container,
-                threshold: 0.9   /* Animacja ruszy dopiero gdy sekcja prawie wypełni ekran */
-            };
+        function loadNextSection() {
+            if (currentIndex >= allContent.length) return;
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    } else {
-                        // Jeśli chcesz, by tekst znikał przy przewijaniu w dół (medytacyjne, ale trudniejsze w odbiorze)
-                        entry.target.classList.remove('is-visible'); 
-                    }
-                });
-            }, options);
+            const item = allContent[currentIndex];
+            const section = document.createElement('section');
+            section.id = item.id;
+            section.className = item.type === 'poem' ? 'poem-section' : 'voice-section';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = `content ${item.type}`;
+            
+            // Wstawiamy tekst do DOM dopiero w momencie skrolowania [cite: 1, 2, 13]
+            contentDiv.innerText = item.text;
 
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+            section.appendChild(contentDiv);
+            container.appendChild(section);
+
+            observer.observe(section);
+            currentIndex++;
         }
 
-        // Start
-        window.onload = buildSite;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    
+                    const sections = document.querySelectorAll('section');
+                    if (entry.target === sections[sections.length - 1]) {
+                        loadNextSection();
+                    }
+                }
+            });
+        }, { threshold: 0.8 });
+
+        window.onload = prepareData;
     </script>
 </body>
 </html>
