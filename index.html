@@ -7,23 +7,19 @@
     <script src="teksty.js"></script>
     <style>
         /* --- ESTETYKA I FUNDAMENTY MEDYTACYJNE --- */
-        html { 
-            scroll-behavior: smooth; 
-        }
+        html { scroll-behavior: smooth; }
 
         body {
-            margin: 0; 
-            padding: 0;
-            background-color: #111111; /* Ciemne tło */
-            color: #bcbcbc;           /* Przygaszony tekst */
+            margin: 0; padding: 0;
+            background-color: #111111;
+            color: #bcbcbc;
             font-family: "Georgia", serif;
             line-height: 1.8;
             letter-spacing: 0.02em;
             -webkit-font-smoothing: antialiased;
-            overflow: hidden; /* Scroll obsługiwany przez <main> */
+            overflow: hidden;
         }
 
-        /* Kontener przewijania - Efekt stron książki + "Zatrzymanie się" */
         main {
             height: 100vh;
             overflow-y: scroll;
@@ -31,182 +27,100 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* --- NAWIGACJA (DYSKRETNA) --- */
+        /* --- NAWIGACJA --- */
         nav {
-            position: fixed; 
-            top: 40px; 
-            width: 100%;
-            display: flex; 
-            justify-content: center; 
-            gap: 40px; 
-            z-index: 100;
+            position: fixed; top: 40px; width: 100%;
+            display: flex; justify-content: center; gap: 40px; z-index: 100;
         }
 
         nav a {
-            text-decoration: none; 
-            color: #bcbcbc; 
-            font-size: 0.75rem;
-            text-transform: lowercase; 
-            opacity: 0.15; /* Ledwo widoczne, by nie rozpraszać */
-            transition: opacity 1s ease;
+            text-decoration: none; color: #bcbcbc; font-size: 0.75rem;
+            text-transform: lowercase; opacity: 0.15; transition: opacity 1s ease;
         }
 
-        nav a:hover { 
-            opacity: 0.5; 
-        }
+        nav a:hover { opacity: 0.5; }
 
-        /* --- STRUKTURA SEKCJI + ANIMACJA POJAWIANIA SIĘ --- */
+        /* --- STRUKTURA SEKCJI --- */
         section {
-            height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            box-sizing: border-box; 
-            scroll-snap-align: start;
-            /* KLUCZOWE: Nie pozwala przeskoczyć kilku sekcji naraz */
-            scroll-snap-stop: always; 
-            position: relative;
+            height: 100vh; display: flex; align-items: center;
+            box-sizing: border-box; scroll-snap-align: start;
+            scroll-snap-stop: always; position: relative;
         }
 
-     /* Tekst jest domyślnie niewidoczny i nieco niżej */
         section .content {
-            opacity: 0; 
-            transform: translateY(5px); 
-            /* Czas trwania: 3 sekundy, Opóźnienie: 0.5 sekundy */
+            opacity: 0; transform: translateY(5px);
             transition: opacity 3s ease-in-out 0.5s, transform 3s ease-in-out 0.5s;
         }
 
-       /* Klasa dodawana przez JS, gdy sekcja wskoczy na ekran */
-        section.is-visible .content {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        section.is-visible .content { opacity: 1; transform: translateY(0); }
 
-        /* Styl dla Wierszy (Środek) */
-        .poem-section {
-            justify-content: center;
-            padding: 0 15%;
-        }
+        .poem-section { justify-content: center; padding: 0 15%; }
+        .poem { text-align: center; font-size: 1.25rem; white-space: pre-line; color: #cccccc; max-width: 600px; }
 
-        .poem { 
-            text-align: center; 
-            font-size: 1.25rem; 
-            white-space: pre-line; 
-            color: #cccccc; 
-            max-width: 600px;
-        }
-
-        /* Styl dla Głosów (Asymetria) */
-        .voice-section { 
-            justify-content: flex-start; 
-            padding-left: 20%; 
-            padding-right: 10%;
-        }
-
+        .voice-section { justify-content: flex-start; padding-left: 20%; padding-right: 10%; }
         .voice { 
-            text-align: left; 
-            color: #666666; /* Jeszcze ciemniejszy szary dla głosów */
-            font-size: 0.95rem; 
-            font-style: italic; 
-            max-width: 450px; 
-            white-space: pre-line;
-            padding-left: 25px;
-            /* Subtelna pionowa linia z lewej */
+            text-align: left; color: #666666; font-size: 0.95rem; font-style: italic; 
+            max-width: 450px; white-space: pre-line; padding-left: 25px;
             border-left: 1px solid rgba(119, 119, 119, 0.15); 
+        }
+
+        /* --- SYSTEM NAGRODY (UKRYTY OBRAZ) --- */
+        #reveal-container {
+            position: fixed;
+            bottom: 12%;
+            right: 8%;
+            width: 10vw;
+            max-width: 160px;
+            pointer-events: none; /* Brak interakcji na starcie [cite: 71] */
+            z-index: 40;
+        }
+
+        #reveal-image {
+            width: 100%;
+            opacity: 0;
+            transform: scale(0.96);
+            filter: blur(8px);
+            transition: all 3s ease-in-out; /* Bardzo powolne zmiany [cite: 153] */
         }
 
         /* --- DETALE DOLNE --- */
         .footer-tools { 
-            position: fixed; 
-            bottom: 30px; 
-            right: 40px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 10px; 
-            z-index: 100; 
-        }
-
-        /* --- DETALE DOLNE (Ulepszona Strzałka) --- */
-        .footer-tools { 
-            position: fixed; 
-            bottom: 30px; 
-            right: 40px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 10px; 
-            z-index: 100; 
-        }
-
-       /* --- DETALE DOLNE (Silniejszy, medytacyjny puls) --- */
-        .footer-tools { 
-            position: fixed; 
-            bottom: 30px; 
-            right: 40px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 10px; 
-            z-index: 100; 
+            position: fixed; bottom: 30px; right: 40px; 
+            display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 100; 
         }
 
         .back-to-top { 
-            text-decoration: none; 
-            color: #bcbcbc; 
-            font-size: 1.1rem; /* Odrobinę większa, by była wyraźniejsza */
-            
-            /* Domyślnie jest ciemniejsza, ale widoczna */
-            opacity: 0.15; 
-            
-            /* Płynne rozjaśnianie przy najechaniu i silniejsza pulsująca animacja */
-            transition: opacity 1.5s ease-in-out; 
-            
-            /* Uruchamia pulsującą animację, która trwa 8 sekund i zapętla się */
-            /* Wydłużona do 8s, by puls był jeszcze bardziej leniwy */
+            text-decoration: none; color: #bcbcbc; font-size: 1.1rem; 
+            opacity: 0.15; transition: opacity 1.5s ease-in-out; 
             animation: breathe_strong 8s ease-in-out infinite;
         }
 
-        /* Przy najechaniu myszką rozjaśnia się mocno, sygnalizując interakcję */
-        .back-to-top:hover { 
-            opacity: 0.8; 
-            /* Zatrzymuje puls, gdy czytelnik chce kliknąć */
-            animation: none; 
-        }
+        .back-to-top:hover { opacity: 0.8; animation: none; }
 
-        /* Definicja animacji "silniejszego oddychania" dla strzałki */
         @keyframes breathe_strong {
-            /* Start: Ciemniejsza (0.15) */
             0%, 100% { opacity: 0.15; transform: translateY(0); }
-            /* Środek: Rozjaśnia się wyraźnie (0.6) i unosi lekko */
-            /* To 0.6 powinno być widoczne nawet przez pomarańczowy filtr */
-            50%      { opacity: 0.6; transform: translateY(-4px); } 
+            50% { opacity: 0.6; transform: translateY(-4px); } 
         }
 
-        .sigil { 
-            font-size: 0.7rem; 
-            opacity: 0.08; 
-            user-select: none; 
-            cursor: default;
-        }
+        .sigil { font-size: 0.7rem; opacity: 0.08; user-select: none; cursor: default; }
 
-        /* --- RESPONSYWNOŚĆ (TELEFONY) --- */
         @media (max-width: 600px) {
             .poem-section { padding: 0 10%; }
             .voice-section { padding-left: 12%; padding-right: 8%; }
-            nav { top: 30px; gap: 25px; }
-            .footer-tools { right: 20px; bottom: 20px; }
-            .poem { font-size: 1.15rem; }
+            #reveal-container { width: 25vw; bottom: 15%; right: 5%; }
         }
 
-        /* Ukrycie paska przewijania */
         main::-webkit-scrollbar { display: none; }
         main { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body>
 
-    <nav id="top-nav">
-        </nav>
+    <nav id="top-nav"></nav>
+
+    <div id="reveal-container">
+        <img src="" id="reveal-image" alt="" />
+    </div>
 
     <div class="footer-tools">
         <a href="#" id="scroll-up" class="back-to-top">↑</a>
@@ -218,42 +132,113 @@
     <script>
         const container = document.getElementById('container');
         const nav = document.getElementById('top-nav');
-        const scrollUp = document.getElementById('scroll-up');
+        const revealImg = document.getElementById('reveal-image');
+        const revealCont = document.getElementById('reveal-container');
 
         let currentIndex = 0; 
-        const allContent = []; 
+        const allContent = [];
+        
+        // --- LOGIKA BEZCZYNNOŚCI (IDLE TIMER) ---
+        let idleTimer = null;
+        let isIdle = false;
+        const IDLE_DELAY = 2500; // 2,5 sekundy bezruchu [cite: 45]
+        const ACTIVATION_CHANCE = 0.2; // 20% szansy [cite: 132]
+        let lastActivationTime = 0;
+        const COOLDOWN = 15000; // 15s przerwy między obrazami [cite: 137]
 
         function prepareData() {
-            // Sprawdzamy, czy wiersze są wczytane z teksty.js [cite: 12]
             if (typeof WIERSZE !== 'undefined' && typeof GLOSY !== 'undefined') {
                 WIERSZE.forEach((t, i) => allContent.push({ text: t, type: 'poem', id: `wiersz-${i}` }));
                 GLOSY.forEach((t, i) => allContent.push({ text: t, type: 'voice', id: `glos-${i}` }));
-
                 nav.innerHTML = `<a href="#" onclick="window.location.reload()">od nowa</a>`;
-                
-                // Ładujemy tylko 2 pierwsze wiersze na start [cite: 13, 14]
                 loadNextSection();
                 loadNextSection();
             }
+            resetIdleTimer();
         }
+
+        // Resetowanie timera przy aktywności [cite: 48, 59]
+        function resetIdleTimer() {
+            clearTimeout(idleTimer);
+            if (isIdle) hideReveal(); // Jeśli się ruszysz, obraz znika [cite: 60]
+            isIdle = false;
+            idleTimer = setTimeout(tryReveal, IDLE_DELAY);
+        }
+
+        function tryReveal() {
+            isIdle = true;
+            const now = Date.now();
+            // Sprawdzanie szansy i czasu od ostatniego razu [cite: 134, 139]
+            if (Math.random() < ACTIVATION_CHANCE && (now - lastActivationTime > COOLDOWN)) {
+                if (typeof GRAFIKI !== 'undefined' && GRAFIKI.length > 0) {
+                    showReveal();
+                }
+            }
+        }
+
+        function showReveal() {
+            const randomImg = GRAFIKI[Math.floor(Math.random() * GRAFIKI.length)];
+            revealImg.src = randomImg;
+            lastActivationTime = Date.now();
+
+            // Pierwsza faza: Wyłanianie (subtelne) [cite: 23, 86]
+            revealImg.style.opacity = "0.18";
+            revealImg.style.transform = "scale(1.0)";
+            revealImg.style.filter = "blur(4px)";
+            revealCont.style.pointerEvents = "auto"; // Pozwól na dotyk/mysz [cite: 103]
+
+            // Druga faza: "Oddychanie" (po 2 sekundach) [cite: 25, 89]
+            setTimeout(() => {
+                if (isIdle) {
+                    revealImg.style.opacity = "0.28";
+                    revealImg.style.filter = "blur(1px)";
+                    revealImg.style.transform = "scale(1.03)";
+                }
+            }, 3000);
+        }
+
+        function hideReveal() {
+            revealImg.style.opacity = "0";
+            revealImg.style.transform = "scale(0.96)";
+            revealImg.style.filter = "blur(8px)";
+            revealCont.style.pointerEvents = "none";
+        }
+
+        // Interakcja z bliska (hover / touch) [cite: 28, 104, 113]
+        revealCont.addEventListener('mouseenter', () => {
+            if (isIdle) {
+                revealImg.style.opacity = "0.7"; // Nie pełne 100%, zachowaj mgłę [cite: 29]
+                revealImg.style.transform = "scale(1.08)";
+                revealImg.style.filter = "blur(0px)";
+            }
+        });
+
+        revealCont.addEventListener('mouseleave', () => {
+            if (isIdle) {
+                revealImg.style.opacity = "0.28";
+                revealImg.style.transform = "scale(1.03)";
+                revealImg.style.filter = "blur(1px)";
+            }
+        });
+
+        // Nasłuchiwanie aktywności [cite: 57, 58]
+        const activityEvents = ['scroll', 'mousemove', 'touchstart', 'keydown'];
+        activityEvents.forEach(evt => {
+            // Reagujemy na <main>, bo on obsługuje scroll
+            container.parentElement.addEventListener(evt, resetIdleTimer, {passive: true});
+        });
 
         function loadNextSection() {
             if (currentIndex >= allContent.length) return;
-
             const item = allContent[currentIndex];
             const section = document.createElement('section');
             section.id = item.id;
             section.className = item.type === 'poem' ? 'poem-section' : 'voice-section';
-            
             const contentDiv = document.createElement('div');
             contentDiv.className = `content ${item.type}`;
-            
-            // Wstawiamy tekst do DOM dopiero w momencie skrolowania [cite: 1, 2, 13]
             contentDiv.innerText = item.text;
-
             section.appendChild(contentDiv);
             container.appendChild(section);
-
             observer.observe(section);
             currentIndex++;
         }
@@ -262,7 +247,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    
                     const sections = document.querySelectorAll('section');
                     if (entry.target === sections[sections.length - 1]) {
                         loadNextSection();
